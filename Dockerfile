@@ -4,7 +4,10 @@ ENV NODE_ENV development
 COPY ./ /home/node/app
 WORKDIR /home/node/app
 
-# port 443 for node js
+#install node-module
+RUN npm install
+
+# port 1883 for mqtt server
 EXPOSE 1883
 
 CMD node ./server.js
