@@ -1,7 +1,6 @@
 var config = require('../config');
 var mosca = require('mosca')
 var util = require('./util.js');
-var alert = require('./alert.js');
 var async  = require('async');
 var axios = require('axios');
 var config = require('../config');

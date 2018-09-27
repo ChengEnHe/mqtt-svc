@@ -2,9 +2,6 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var bodyParser = require('body-parser');
-var api = require('./routers/api.js'),
-    map = require('./routers/map.js'),
-    device = require('./routers/device.js');
 var config = require('./config');
 var broker = require('./modules/broker.js').getServer();
 var async   = require('async'),
@@ -36,14 +33,9 @@ app.all('/*', function(req, res, next) {
 });
 
 router.get('/', function(req, res) {
-	res.json({ message: 'MQTT Broker and API!' });   
+	res.json({ message: 'MQTT Broker is runnung!' });   
 });
 
-app.use('/api', api);
-app.use('/map', map);
-app.use('/device', device);
-
-api = require('./routers/api.js'),
 
 app.use(function(req, res, next) {
 	res.status(404);
@@ -59,7 +51,7 @@ var server = app.listen(config.port, function () {
 	var port = server.address().port;
 	
 	console.log('Server listening at http://localhost:%s', port);
-	console.log('api url : http://localhost:8000/api/:table');
+	
 });
 
 broker.attachHttpServer(server);

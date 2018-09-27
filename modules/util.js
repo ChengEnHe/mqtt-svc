@@ -1,20 +1,18 @@
 var moment = require('moment-timezone');
-var mongoDevice = require('./mongoDevice.js');
-var mongoMap = require('./mongoMap.js');
+//var mongoDevice = require('./mongoDevice.js');
+//var mongoMap = require('./mongoMap.js');
 var config = require('../config');
-var debug = true;
 var CryptoJS = require("crypto-js");
 var async  = require('async');
-var config = require('../config');
 var mysqlTool = require('./mysqlTool.js');
 var debug = isDebug();
 var epc = require('node-epc');
 
 module.exports = {
     checkDevice,
-    parseMsgd,
-    createMap,
-    checkAndParseToken,
+    //parseMsgd,
+    //createMap,
+    //checkAndParseToken,
     checkAndParseMessage,
     checkFormData,
     isDebug,
@@ -22,7 +20,7 @@ module.exports = {
     getCurrentTime,
     getMsgJson,
     getDataJson,
-    getUserTokenArr
+    //getUserTokenArr
 }
 
 function decode (dataEncrypt, key) {
@@ -33,13 +31,13 @@ function decode (dataEncrypt, key) {
         return null;
     }
 }
-
+/*
 function getUserTokenArr (token) {
     var tokenStr = decode(token, config.tokenKey);
     var tArr = tokenStr.split(':');
     return tArr;
 }
-
+*/
 function isAuth () {
     return config.auth;
 }
@@ -58,7 +56,7 @@ function checkDevice(mac, callback) {
         return (null,devices);
     })
 }
-
+/*
 function parseMsgd(obj, callback) {
 
     if (getType(obj) === 'other') {
@@ -228,7 +226,7 @@ function getTypeData(data,mapObj) {
         return null;
     }
 }
-
+*/
 function getIntData(arrRange,initData){
     var ret = {};
     var start = arrRange[0];
@@ -275,7 +273,7 @@ function getType(p) {
     else if (p != null && typeof p == 'object') return 'object';
     else return 'other';
 }
-
+/*
 function saveMsgToDB (msg) {
     mongoDevice.create(msg).then(function(docs) {
         console.log('saveMsgToDB ok');
@@ -394,7 +392,7 @@ function checkAndParseToken (token, res, callback) {
         }
 	});
 }
-
+*/
 function getMsgJson (message) {
     if (getType(message) === 'string') {
         try {
