@@ -1,7 +1,7 @@
 FROM node:6
 
 ENV NODE_ENV development
-COPY ./ /home/node/app
+COPY ./src /home/node/app
 WORKDIR /home/node/app
 
 #install node-module
