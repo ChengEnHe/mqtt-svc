@@ -21,6 +21,7 @@ module.exports = {
     getMsgJson,
     getDataJson,
     //getUserTokenArr
+    checkLogin,
 }
 
 function decode (dataEncrypt, key) {
@@ -272,6 +273,92 @@ function getType(p) {
     else if (typeof p == 'string') return 'string';
     else if (p != null && typeof p == 'object') return 'object';
     else return 'other';
+}
+function checkLogin(username, pwd, callback){
+  console.log('check login:'+username)
+  if(username.indexOf(':') > -1){
+    accArray = username.split(':')
+    if(accArray.length == 2){
+      let accType = accArray[0]
+      let acc = accArray[1]
+      if(accType == 'user'){
+        return userLogin(acc, pwd, function(e, flag){
+            if(e) {
+              console.log('user login error:'+e)
+              callback(null, false)
+            }
+            console.log('user login flag:'+flag)
+            callback(null, flag)
+          }
+        )
+      }
+      if(accType == 'device'){
+        return deviceLogin(acc, pwd, function(e, flag){
+            if(e) {
+              console.log('device login error:'+e)
+              callback(null, false)
+            }
+            callback(null, flag)
+          }
+        )
+      }
+    }
+  }
+}
+function userLogin(acc, pwd, callback){
+  let flag = false
+  let request = require('request');
+  let url = config.APIHost + config.userLoginUrl
+  console.log('acc:'+acc)
+  console.log('pwd:'+pwd.toString())
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: {
+      "acc": acc,
+      "pwd": pwd.toString(),
+      "type": '0'
+    }
+  };
+
+  request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        console.log('user login response:'+JSON.stringify(body))
+      if (body.responseCode == '000'){
+        callback(null, true)
+      }else{
+        callback(null, false)
+      }
+    }else{
+      callback(error)
+    }
+  });
+}
+function deviceLogin(acc, pwd, callback){
+  let request = require('request');
+  let flag = false
+  let url = config.APIHost + config.deviceLoginUrl
+  var options = {
+    uri: url,
+    method: 'POST',
+    json: {
+      "acc": acc,
+      "pwd": pwd.toString()
+    }
+  };
+  
+  request(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+        console.log('user login response:'+JSON.stringify(body))
+      if (body.responseCode == '000'){
+        callback(null, true)
+      }else{
+        callback(null, false)
+      }
+    }else{
+      callback(error)
+    }
+  });
 }
 /*
 function saveMsgToDB (msg) {

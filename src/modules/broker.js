@@ -45,9 +45,13 @@ var Mqttsv = function(){
   server.on('ready', setup);
   // Accepts the connection if the username and password are valid
   var authenticate = function(client, username, password, callback) {
-    var authorized = (username === 'alice' && password.toString() === 'secret');
-    if (authorized) client.user = username;
-    callback(null, authorized);
+    console.log('username:'+username+' password:'+password)
+    util.checkLogin(username, password, function(e, flag) {
+      if(e) {
+        callback(null, false)
+      }
+      callback(null, flag)
+    });
   }
 
   // In this case the client authorized as alice can publish to /users/alice taking
