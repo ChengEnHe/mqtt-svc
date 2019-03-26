@@ -3,7 +3,7 @@ var config = {};
 config.port = 8001;
 
 //Authentication
-config.auth = true;
+config.auth = false;
 
 //Base Url
 config.baseurl = '/v1/';
